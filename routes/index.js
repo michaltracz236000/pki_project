@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
     };
     pool.query(query1)
     .then((result1) => {
-      console.log(result1.rows);
       for (let row of result1.rows) {
         text+="Table: "+row.table_name+"<br>"
       }
