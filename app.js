@@ -9,6 +9,32 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const { Pool } = require("pg");
+const dotenv = require("dotenv");
+pool = null
+dotenv.config();
+const connectDb = async () => {
+  try {
+    pool = new Pool({
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      password: process.env.PGPASSWORD,
+      port: process.env.PGPORT,
+      ssl: {
+        rejectUnauthorized: false,
+        sslmode: 'require'
+      }
+    });
+
+    await pool.connect()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+connectDb()
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
