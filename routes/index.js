@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
       for (let row of result1.rows) {
         text+="Table: "+row.table_name+'<form action="/showDB" method="POST"><button type="Submit" name="db" value="'+row.table_name+'">Pokaż</button></form><br>';
       }
-      text+='Input do zapytań sql<br><form action="/showDB" method="POST"><input type="textarea"/><button type="Submit" name="query" value="test">Pokaż</button></form>';
+      text+='Input do zapytań sql<br><form action="/showDB" method="POST"><input type="textarea" name="query"/><button type="Submit">Pokaż</button></form>';
       res.send(text);
     })
     .catch((error2) => {

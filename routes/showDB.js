@@ -5,11 +5,31 @@ var router = express.Router();
 router.post('/', function(req, res, next) {
     if(req.body.db!= undefined)
     {
-        res.send("BAZA: "+req.body.db);
+        text=''
+  const query = {
+    text: 'SELECT * FROM '+req.body.db,
+  };
+  pool.query(query)
+  .then((result) => {
+    console.log(result.rows);
+    res.send(result.rows);
+  })
+  .catch((error) => {
+    res.send("NIE dostałem1");
+  });
     }
     else if(req.body.query!=undefined)
     {
-        res.send("QUERY: "+req.body.query);
+        console.log(req.body.query);
+        pool.query(req.body.query)
+  .then((result) => {
+    
+    console.log(result);
+    res.send(result);
+  })
+  .catch((error) => {
+    res.send(error);
+  });
     }
     else
     {
