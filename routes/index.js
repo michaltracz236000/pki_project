@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
     pool.query(query1)
     .then((result1) => {
       for (let row of result1.rows) {
-        text+="Table: "+row.table_name+"<br>"
+        text+="Table: "+row.table_name+'<a href="/"><button>Pokaż</button></a><br>';
       }
       res.send(text);
     })
