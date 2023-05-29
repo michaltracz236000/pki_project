@@ -11,6 +11,7 @@ var queryRouter = require('./routes/query');
 var editRowRouter = require('./routes/editRow');
 var deleteRowRouter = require('./routes/deleteRow');
 var addRowRouter = require('./routes/addRow');
+var sendQueryRouter = require('./routes/sendQuery');
 
 
 
@@ -59,6 +60,7 @@ app.use('/query', queryRouter);
 app.use('/editRow', editRowRouter);
 app.use('/deleteRow', deleteRowRouter);
 app.use('/addRow', addRowRouter);
+app.use('/sendQuery', sendQueryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

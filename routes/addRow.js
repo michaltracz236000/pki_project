@@ -13,7 +13,7 @@ router.post('/', function(req, res, next) {
   };
   pool.query(query)
     .then((result) => {
-      text=''
+      text = '<form action="/sendQuery" method="POST">'
       var i=0;
       while(i<result.rows.length)
       {
@@ -30,6 +30,7 @@ router.post('/', function(req, res, next) {
         }
         i+=1;
       }
+      text+='<input type="hidden" name="type" value="add" /><button type="Submit" name="tableName" value="' + req.body.tableName + '">Zapisz</button></form>'
       res.send(text)
     })
     .catch((error) => {
