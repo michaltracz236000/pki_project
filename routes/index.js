@@ -16,12 +16,12 @@ router.get('/', function(req, res, next) {
     pool.query(query1)
     .then((result1) => {
       for (let row of result1.rows) {
-        text+="Table: "+row.table_name+'<form action="/showDB" method="POST"><button type="Submit" name="db" value="'+row.table_name+'">Pokaż</button></form><br>';
+        text+="Table: "+row.table_name+'<form action="/showDB" method="POST"><button type="Submit" name="db" value="'+row.table_name+'">Pokaż zawartość tabeli</button></form><br>';
       }
       var query = "";
       if(req.query.query!=undefined)
         query=req.query.query;
-      text+='Input do zapytań sql<br><form action="/showDB" method="POST"><input type="textarea" name="query" value="'+query+'"/><button type="Submit">Pokaż</button></form>';
+      text+='Input do zapytań sql<br><form action="/query" method="POST"><input type="textarea" name="query" value="'+query+'"/><br><button type="Submit">Wyślij</button></form>';
       res.send(text);
     })
     .catch((error2) => {

@@ -10,28 +10,28 @@ router.post('/', function (req, res, next) {
         };
         pool.query(query)
             .then((result) => {
-                console.log(result.rows);
-                text = ""
-                text += result.rows + '<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
+                let tableHTML = '<table>';
+                tableHTML += '<tr>';
+                Object.keys(result.rows[0]).forEach(key => {
+                    tableHTML += `<th>${key}</th>`;
+                });
+                tableHTML+=`<th>edit</th>`
+                tableHTML += '</tr>';
+                result.rows.forEach(row => {
+                    tableHTML += '<tr>';
+                    Object.values(row).forEach(value => {
+                        tableHTML += `<td>${value}</td>`;
+                    });
+                    tableHTML +=`<td><form method="POST" action="/editRow"><button type="submit">EDIT</button></form></td>`
+                    tableHTML += '</tr>';
+                });
+                tableHTML += '</table>';
+                text = tableHTML
+                text +='<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
                 res.send(text);
             })
             .catch((error) => {
                 res.send("NIE dostałem1");
-            });
-    }
-    else if (req.body.query != undefined) {
-        pool.query(req.body.query)
-            .then((result) => {
-                console.log(req.body.query);
-                text = ""
-                text += result.rows + '<form method="GET" action="/"><button type="submit" name="query" value="' + req.body.query + '">Powrót do strony głównej</button></form>'
-                console.log(result);
-                res.send(text);
-            })
-            .catch((error) => {
-                text = ""
-                text += error + '<form method="GET" action="/"><button type="submit" name="query" value="' + req.body.query + '">Powrót do strony głównej</button></form>'
-                res.send(text);
             });
     }
     else {
