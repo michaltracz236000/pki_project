@@ -22,7 +22,8 @@ router.post('/', function (req, res, next) {
                     Object.values(row).forEach(value => {
                         tableHTML += `<td>${value}</td>`;
                     });
-                    tableHTML +=`<td><form method="POST" action="/editRow"><button type="submit">EDIT</button></form></td>`
+                    tableHTML +=`<td><form method="POST" action="/editRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">EDIT</button></form></td>`
+                    tableHTML +=`<td><form method="POST" action="/deleteRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">DELETE</button></form></td>`
                     tableHTML += '</tr>';
                 });
                 tableHTML += '</table>';
