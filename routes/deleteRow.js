@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  res.send(req.body.toDelete);
+  res.send(req.body.toDelete+"<br>"+req.body.tableName);
 });
 
 module.exports = router;
