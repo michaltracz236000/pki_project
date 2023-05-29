@@ -22,13 +22,14 @@ router.post('/', function (req, res, next) {
                     Object.values(row).forEach(value => {
                         tableHTML += `<td>${value}</td>`;
                     });
-                    tableHTML +=`<td><form method="POST" action="/editRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">EDIT</button><input type="hidden" name="tableName" value="`+req.body.db+`" /></form></td>`
-                    tableHTML +=`<td><form method="POST" action="/deleteRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">DELETE</button><input type="hidden" name="tableName" value="`+req.body.db+`" /></form></td>`
+                    tableHTML +=`<td><form method="POST" action="/editRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">EDIT</button><input type="hidden" name="tableName" value="`+req.body.db+`" /><input type="hidden" name="columnName" value="`+Object.keys(result.rows[0])[0]+`" /></form></td>`
+                    tableHTML +=`<td><form method="POST" action="/deleteRow"><button type="submit" value="`+Object.values(row)[0]+`" name="toDelete">DELETE</button><input type="hidden" name="tableName" value="`+req.body.db+`" /><input type="hidden" name="columnName" value="`+Object.keys(result.rows[0])[0]+`" /></form></td>`
                     tableHTML += '</tr>';
                 });
                 tableHTML += '</table>';
                 text = tableHTML
                 text +='<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
+                text +='<form method="POST" action="/addRow"><button type="submit">Dodaj nowy wiersz</button></form>'
                 res.send(text);
             })
             .catch((error) => {
