@@ -4,9 +4,14 @@ var router = express.Router();
 /* GET users listing. */
 router.post('/', function (req, res, next) {
     if (req.body.db != undefined) {
+        queryText='SELECT * FROM ' + req.body.db
+        if(req.body.sortBy!=undefined)
+        {
+            queryText+=' ORDER BY '+req.body.sortBy+' '+req.body.order
+        }
         text = ''
         const query = {
-            text: 'SELECT * FROM ' + req.body.db,
+            text: queryText,
         };
         pool.query(query)
             .then((result) => {
@@ -29,12 +34,32 @@ router.post('/', function (req, res, next) {
                 tableHTML += '</table>';
                 text = tableHTML
                 text +='<form method="POST" action="/addRow"><input type="hidden" name="tableName" value="'+req.body.db+'" /><button type="submit">Dodaj nowy wiersz</button></form>'
-                text +='<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
+                const query1 = {
+                    text: `SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '` + req.body.db + `'`,
+                  };
+                  pool.query(query1)
+                    .then((result1) => {
+                        text +=`<form action="/showDB" method="POST"><select id="sortBy" name="sortBy">`
+                        i=0;
+                        while(i<result.rows.length)
+                        {
+                            text+=`<option value="`+Object.values(result1.rows[i])[3]+`">`+Object.values(result1.rows[i])[3]+`</option>`
+                            i+=1;
+                        }
+
+                        text+='</select><select id="order" name="order"><option value="ASC">Rosnąco</option><option value="DESC">Malejąco</option></select><button type="Submit" name="db" value="'+req.body.db+'">Sortuj</button></form><br>'
+                        text +='<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
+                        res.send(text);
+                    })
+                    .catch((error1) => {
+                      res.send("NIE dostałem2" + error1);
+                    });
+
                 
-                res.send(text);
+                //res.send(text);
             })
             .catch((error) => {
-                res.send("NIE dostałem1");
+                res.send("NIE dostałem1 "+error);
             });
     }
     else {
