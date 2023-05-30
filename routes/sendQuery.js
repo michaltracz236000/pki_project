@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   text = ''
   text+='<!DOCTYPE HTML><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bootstrap demo</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script></head><body>'
-  text+='<nav class="navbar bg-primary"><div class="container-fluid"><span class="navbar-brand mb-0 h1">Witaj na stronie sendQuery</span></div></nav><div class="m-4">'
+  text+='<nav class="navbar bg-primary"><div class="container-fluid"><span class="navbar-brand mb-0 h1 text-white">Witaj na stronie sendQuery</span></div></nav><div class="m-4">'
   const query = {
     text: `SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '` + req.body.tableName + `'`,
   };
@@ -27,103 +27,103 @@ router.post('/', function (req, res, next) {
       }
       //res.send("<br>"+values1)
       if (req.body.type == 'add') {
-        var text = `INSERT INTO public.` + req.body.tableName + `(`
+        var textQuery = `INSERT INTO public.` + req.body.tableName + `(`
         i = 0;
         while (i < values1.length) {
           if (values1[i] == 'integer') {
             if (i + 4 == values1.length) {
               if (values1[i + 3] == null) {
-                text += values1[i + 1] + ''
+                textQuery += values1[i + 1] + ''
               }
             }
             else {
               if (values1[i + 3] == null) {
-                text += values1[i + 1] + ', '
+                textQuery += values1[i + 1] + ', '
               }
             }
           }
           else {
             if (i + 4 == values1.length)
             {
-              text += values1[i + 1] + ' '
+              textQuery += values1[i + 1] + ' '
             }
             else
             {
-              text += values1[i + 1] + ', '
+              textQuery += values1[i + 1] + ', '
             }
           }
           i += 4;
         }
-        text += `) VALUES (`;
+        textQuery += `) VALUES (`;
         i = 0;
         while (i < values1.length) {
           if (values1[i] == 'integer') {
             if (i + 4 == values1.length) {
               if (values1[i + 3] == null) {
-                text += values1[i + 2] + ''
+                textQuery += values1[i + 2] + ''
               }
             }
             else {
               if (values1[i + 3] == null) {
-                text += values1[i + 2] + ', '
+                textQuery += values1[i + 2] + ', '
               }
             }
           }
           else {
             if (i + 4 == values1.length)
             {
-              text += `'`+values1[i + 2] + `' `
+              textQuery += `'`+values1[i + 2] + `' `
             }
             else
             {
-              text += `'`+values1[i + 2] + `', `
+              textQuery += `'`+values1[i + 2] + `', `
             }
           }
           i += 4;
         }
-        text += `);`;
+        textQuery += `);`;
         const query1 = {
-          text: text,
+          text: textQuery,
         };
         pool.query(query1)
           .then((result1) => {
 
-            res.send('UDAŁO SIĘ<br><form action="/showDB" method="POST"><button type="Submit" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
+            res.send(text+'<h4 class="text-primary">UDAŁO SIĘ</h4><form action="/showDB" method="POST"><button type="Submit" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
           })
           .catch((error1) => {
             res.send("NIE udało się edytować 2 " + error1);
           });
       }
       else {
-        var text = `UPDATE public.` + req.body.tableName + ` SET `
+        var textQuery = `UPDATE public.` + req.body.tableName + ` SET `
         i = 0;
         while (i < values1.length) {
           if (values1[i] == 'integer') {
             if (i + 4 == values1.length) {
-              text += values1[i + 1] + `=` + values1[i + 2] + ` `
+              textQuery += values1[i + 1] + `=` + values1[i + 2] + ` `
             }
             else {
-              text += values1[i + 1] + `=` + values1[i + 2] + `, `
+              textQuery += values1[i + 1] + `=` + values1[i + 2] + `, `
             }
           }
           else {
             if (i + 4 == values1.length) {
-              text += values1[i + 1] + `='` + values1[i + 2] + `' `
+              textQuery += values1[i + 1] + `='` + values1[i + 2] + `' `
             }
             else {
-              text += values1[i + 1] + `='` + values1[i + 2] + `', `
+              textQuery += values1[i + 1] + `='` + values1[i + 2] + `', `
             }
           }
           i += 4;
         }
-        text += `WHERE ` + values1[1] + `=` + values1[2] + `;`;
+        textQuery += `WHERE ` + values1[1] + `=` + values1[2] + `;`;
         const query1 = {
-          text: text,
+          text: textQuery,
         };
         pool.query(query1)
           .then((result1) => {
 
-            res.send('UDAŁO SIĘ<br><form action="/showDB" method="POST"><button type="Submit" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
+            res.send(text+'<h4 class="text-primary">UDAŁO SIĘ</h4><form action="/showDB" method="POST"><button type="Submit" name="db" class="btn btn-primary" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
           })
           .catch((error1) => {
             res.send("NIE udało się edytować 2 " + error1);

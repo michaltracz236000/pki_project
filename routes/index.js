@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
       var query = "";
       if(req.query.query!=undefined)
         query=req.query.query;
-      text+='<h4> Input do zapytań SQL</h4><form action="/query" method="POST"><input type="textarea" name="query" value="'+query+'"/><br><br><button class="btn btn-primary" type="Submit">Wyślij</button></form>';
+      text+='<h4> Input do zapytań SQL</h4><form action="/query" method="POST"><input type="textarea" name="query" value="'+query+'" class="form-control rounded bg-light" style="max-width: 400px;"/><br><br><button class="btn btn-primary" type="Submit">Wyślij</button></form>';
       
       res.send(text+'</div></body></html>');
     })

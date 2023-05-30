@@ -93,7 +93,7 @@ router.post('/', function (req, res, next) {
                                     tableHTML += '</table>';
                                     text += tableHTML
                                     text += '<form method="POST" action="/addRow"><input type="hidden" name="tableName" value="' + req.body.db + '" /><button type="submit" class="btn btn-primary">Dodaj nowy wiersz</button></form><br>'
-                                    text += `<form action="/showDB" method="POST"><select id="sortBy" name="sortBy">`
+                                    text += `<form action="/showDB" method="POST"><select class="form-control rounded" style="max-width: 400px;" id="sortBy" name="sortBy">`
                                     i = 0;
                                     while (i < result.rows.length) {
                                         if (req.body.sortBy == Object.values(result1.rows[i])[3]) {
@@ -105,7 +105,7 @@ router.post('/', function (req, res, next) {
 
                                         i += 1;
                                     }
-                                    text += '</select><select id="order" name="order"><option value="ASC">Rosnąco</option>'
+                                    text += '</select><select id="order" name="order" class="form-control rounded" style="max-width: 400px;"><option value="ASC">Rosnąco</option>'
                                     if (req.body.order == 'DESC') {
                                         text += '<option value="DESC" selected>Malejąco</option>'
                                     }
