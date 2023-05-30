@@ -40,7 +40,8 @@ router.post('/', function (req, res, next) {
                 if (req.body.sortBy != undefined) {
                     queryText += ' ORDER BY ' + req.body.sortBy + ' ' + req.body.order
                 }
-                text = ''
+                text='<!DOCTYPE HTML><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bootstrap demo</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script></head><body>'
+    text+='<nav class="navbar bg-primary"><div class="container-fluid"><span class="navbar-brand mb-0 h1 text-white">Witaj na stronie showDB</span></div></nav><div class="m-4">'
                 const query = {
                     text: queryText,
                 };
@@ -52,20 +53,20 @@ router.post('/', function (req, res, next) {
                             res.send(text);
                         }
                         else {
-                            let tableHTML = '<table>';
+                            let tableHTML = '<table class="table table-striped">';
                             tableHTML += '<tr>';
                             Object.keys(result.rows[0]).forEach(key => {
-                                tableHTML += `<th>${key}</th>`;
+                                tableHTML += `<th scope="col">${key}</th>`;
                             });
-                            tableHTML += `<th>edit</th>`
+                            tableHTML += `<th scope="col">edit</th>`
                             tableHTML += '</tr>';
                             result.rows.forEach(row => {
                                 tableHTML += '<tr>';
                                 Object.values(row).forEach(value => {
                                     tableHTML += `<td>${value}</td>`;
                                 });
-                                tableHTML += `<td><form method="POST" action="/editRow"><button type="submit" value="` + Object.values(row)[0] + `" name="toEdit">EDIT</button><input type="hidden" name="tableName" value="` + req.body.db + `" /><input type="hidden" name="columnName" value="` + Object.keys(result.rows[0])[0] + `" /></form></td>`
-                                tableHTML += `<td><form method="POST" action="/deleteRow"><button type="submit" value="` + Object.values(row)[0] + `" name="toDelete">DELETE</button><input type="hidden" name="tableName" value="` + req.body.db + `" /><input type="hidden" name="columnName" value="` + Object.keys(result.rows[0])[0] + `" /></form></td>`
+                                tableHTML += `<td><form method="POST" action="/editRow"><button type="submit" class="btn btn-primary" value="` + Object.values(row)[0] + `" name="toEdit">EDYTUJ</button><input type="hidden" name="tableName" value="` + req.body.db + `" /><input type="hidden" name="columnName" value="` + Object.keys(result.rows[0])[0] + `" /></form>`
+                                tableHTML += `<form method="POST" action="/deleteRow"><button type="submit" class="btn btn-primary" value="` + Object.values(row)[0] + `" name="toDelete">USUŃ</button><input type="hidden" name="tableName" value="` + req.body.db + `" /><input type="hidden" name="columnName" value="` + Object.keys(result.rows[0])[0] + `" /></form></td>`
                                 tableHTML += '</tr>';
                             });
 
@@ -79,19 +80,19 @@ router.post('/', function (req, res, next) {
                                     i = 0;
                                     while (i < result1.rows.length) {
                                         if ('integer' == Object.values(result1.rows[i])[7]) {
-                                            tableHTML += `<td><select name="` + Object.values(result1.rows[i])[3] + `_select"><option value=">">></option><option value="<"><</option><option value="=">=</option></select><input type="number" name="` + Object.values(result1.rows[i])[3] + `"/>${Object.values(result1.rows[i])[3]}</td>`
+                                            tableHTML += `<td><input type="number" name="` + Object.values(result1.rows[i])[3] + `" class="form-control rounded"/><select name="` + Object.values(result1.rows[i])[3] + `_select" class="form-control rounded"><option value=">">></option><option value="<"><</option><option value="=">=</option></select></td>`
                                         }
                                         else {
-                                            tableHTML += `<td><input type="text" name="` + Object.values(result1.rows[i])[3] + `"/>${Object.values(result1.rows[i])[3]}</td>`
+                                            tableHTML += `<td><input type="text" name="` + Object.values(result1.rows[i])[3] + `" class="form-control rounded"/></td>`
                                         }
 
                                         i += 1;
                                     }
 
-                                    tableHTML += '<td><button type="Submit" name="db" value="' + req.body.db + '">Filtruj</button></td></form></tr>'
+                                    tableHTML += '<td><button type="Submit" name="db" class="btn btn-info" value="' + req.body.db + '">Filtruj</button></td></form></tr>'
                                     tableHTML += '</table>';
-                                    text = tableHTML
-                                    text += '<form method="POST" action="/addRow"><input type="hidden" name="tableName" value="' + req.body.db + '" /><button type="submit">Dodaj nowy wiersz</button></form>'
+                                    text += tableHTML
+                                    text += '<form method="POST" action="/addRow"><input type="hidden" name="tableName" value="' + req.body.db + '" /><button type="submit" class="btn btn-primary">Dodaj nowy wiersz</button></form><br>'
                                     text += `<form action="/showDB" method="POST"><select id="sortBy" name="sortBy">`
                                     i = 0;
                                     while (i < result.rows.length) {
@@ -111,9 +112,9 @@ router.post('/', function (req, res, next) {
                                     else {
                                         text += '<option value="DESC">Malejąco</option>'
                                     }
-                                    text += '</select><button type="Submit" name="db" value="' + req.body.db + '">Sortuj</button></form><br>'
-                                    text += '<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
-                                    res.send(text);
+                                    text += '</select><br><button class="btn btn-info" type="Submit" name="db" value="' + req.body.db + '">Sortuj</button></form><br>'
+                                    text += '<form method="GET" action="/"><button type="submit" class="btn btn-secondary">Powrót do strony głównej</button></form>'
+                                    res.send(text+'</div></body></html>');
                                 })
                                 .catch((error1) => {
                                     res.send("NIE dostałem3" + error1);
