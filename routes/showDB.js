@@ -43,11 +43,28 @@ router.post('/', function (req, res, next) {
                         i=0;
                         while(i<result.rows.length)
                         {
-                            text+=`<option value="`+Object.values(result1.rows[i])[3]+`">`+Object.values(result1.rows[i])[3]+`</option>`
+                            if(req.body.sortBy==Object.values(result1.rows[i])[3])
+                            {
+                                text+=`<option value="`+Object.values(result1.rows[i])[3]+`" selected>`+Object.values(result1.rows[i])[3]+`</option>`
+                            }
+                            else
+                            {
+                                text+=`<option value="`+Object.values(result1.rows[i])[3]+`">`+Object.values(result1.rows[i])[3]+`</option>`
+                            }
+                            
                             i+=1;
                         }
 
-                        text+='</select><select id="order" name="order"><option value="ASC">Rosnąco</option><option value="DESC">Malejąco</option></select><button type="Submit" name="db" value="'+req.body.db+'">Sortuj</button></form><br>'
+                        text+='</select><select id="order" name="order"><option value="ASC">Rosnąco</option>'
+                        if(req.body.order=='DESC')
+                        {
+                            text+='<option value="DESC" selected>Malejąco</option>'
+                        }
+                        else
+                        {
+                            text+='<option value="DESC">Malejąco</option>'
+                        }
+                        text+='</select><button type="Submit" name="db" value="'+req.body.db+'">Sortuj</button></form><br>'
                         text +='<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
                         res.send(text);
                     })
@@ -68,3 +85,5 @@ router.post('/', function (req, res, next) {
 });
 
 module.exports = router;
+
+//DODANIE Domyślego wyboru
