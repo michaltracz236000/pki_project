@@ -88,7 +88,7 @@ router.post('/', function (req, res, next) {
         pool.query(query1)
           .then((result1) => {
 
-            res.send(text+'<h4 class="text-primary">UDAŁO SIĘ</h4><form action="/showDB" method="POST"><button type="Submit" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
+            res.send(text+'<h4 class="text-primary">UDAŁO SIĘ</h4><form action="/showDB" method="POST"><button type="Submit" class="btn btn-primary" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
           })
           .catch((error1) => {
             res.send("NIE udało się edytować 2 " + error1);
