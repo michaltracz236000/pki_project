@@ -105,7 +105,7 @@ router.post('/', function (req, res, next) {
             res.send(text+'<h4 class="text-primary">UDAŁO SIĘ</h4><form action="/showDB" method="POST"><button type="Submit" class="btn btn-primary" name="db" value="' + req.body.tableName + '">Powrót</button></form></div></body></html>')
           })
           .catch((error1) => {//TODO DODAĆ WYŚWIETLANIE ERRORA
-            res.send("Brak informacji: "+error1);
+            res.send(text+'<div class="alert alert-danger" role="alert">'+error1 + '</div></body></html>');
           });
       }
       else {
