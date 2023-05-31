@@ -45,18 +45,18 @@ router.post('/', function (req, res, next) {
             if (req.body[poles[i]]) {
               if (data_type[i] == 'integer') {
                 isToShow = true;
-                textToShow += poles[i] + req.body[poles[i] + '_select'] + '' + req.body[poles[i]] + ', '
+                textToShow += poles[i] + req.body[poles[i] + '_select'] + '' + req.body[poles[i]] + ' AND '
               }
               else {
                 isToShow = true;
-                textToShow += poles[i] + `='` + req.body[poles[i]] + `', `
+                textToShow += poles[i] + `='` + req.body[poles[i]] + `' AND `
               }
 
             }
             i += 1;
           }
           if (isToShow) {
-            textToShow = " WHERE " + textToShow.slice(0, -2);
+            textToShow = " WHERE " + textToShow.slice(0, -4);
           }
           if (isToShow) {
             textQuery += textToShow
