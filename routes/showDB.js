@@ -4,6 +4,23 @@ var router = express.Router();
 /* GET users listing. */
 router.post('/', function (req, res, next) {
     if (req.body.db != undefined) {
+        text = `<!DOCTYPE HTML>
+        <html lang="pl">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script></head><body>`
+                    text += `<nav class="navbar bg-primary">
+        <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">Witaj na stronie showDB</span>
+        </div>
+        </nav>
+        <div class="m-4">`
+
         const query2 = {
             text: `SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '` + req.body.db + `'`,
         };
@@ -40,15 +57,14 @@ router.post('/', function (req, res, next) {
                 if (req.body.sortBy != undefined) {
                     queryText += ' ORDER BY ' + req.body.sortBy + ' ' + req.body.order
                 }
-                text='<!DOCTYPE HTML><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bootstrap demo</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script></head><body>'
-    text+='<nav class="navbar bg-primary"><div class="container-fluid"><span class="navbar-brand mb-0 h1 text-white">Witaj na stronie showDB</span></div></nav><div class="m-4">'
+                
                 const query = {
                     text: queryText,
                 };
                 pool.query(query)
                     .then((result) => {
                         if (result.rows.length == 0) {
-                            text="BRAK DANYCH DO WYŚWIETLENIA"
+                            text = "BRAK DANYCH DO WYŚWIETLENIA"
                             text += '<form method="GET" action="/"><button type="submit">Powrót do strony głównej</button></form>'
                             res.send(text);
                         }
@@ -114,7 +130,7 @@ router.post('/', function (req, res, next) {
                                     }
                                     text += '</select><br><button class="btn btn-info" type="Submit" name="db" value="' + req.body.db + '">Sortuj</button></form><br>'
                                     text += '<form method="GET" action="/"><button type="submit" class="btn btn-secondary">Powrót do strony głównej</button></form>'
-                                    res.send(text+'</div></body></html>');
+                                    res.send(text + '</div></body></html>');
                                 })
                                 .catch((error1) => {
                                     res.send("NIE dostałem3" + error1);
