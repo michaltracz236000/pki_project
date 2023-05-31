@@ -133,16 +133,16 @@ router.post('/', function (req, res, next) {
                                     res.send(text + '</div></body></html>');
                                 })
                                 .catch((error1) => {
-                                    res.send("NIE dostałem3" + error1);
+                                    res.send(text+'<div class="alert alert-danger" role="alert">'+error1 + '</div></body></html>');
                                 });
                         }
                     })
                     .catch((error) => {
-                        res.send("NIE dostałem1 " + error);
+                        res.send(text+'<div class="alert alert-danger" role="alert">'+error + '</div></body></html>');
                     });
             })
             .catch((error2) => {
-                res.send("NIE dostałem2" + error2);
+                res.send(text+'<div class="alert alert-danger" role="alert">'+error2 + '</div></body></html>');
             });
     }
     else {

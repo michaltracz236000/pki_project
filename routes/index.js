@@ -51,11 +51,11 @@ router.get('/', function(req, res, next) {
       res.send(text+`</div></body></html>`);
     })
     .catch((error2) => {
-      res.send("Brak informacji: "+error);
+      res.send(text+'<div class="alert alert-danger" role="alert">'+error2 + '</div></body></html>');
     });
   })
   .catch((error) => {
-    res.send("Brak informacji: "+ error);
+    res.send(text+'<div class="alert alert-danger" role="alert">'+error + '</div></body></html>');
   });
 });
 

@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
       res.send(text+"</div></body></html>")
     })
     .catch((error) => {
-      res.send("NIE udało się usunąć" + error);
+      res.send(text+'<div class="alert alert-danger" role="alert">'+error + '</div></body></html>');
     });
   //res.send(req.body.toEdit+"<br>"+req.body.tableName);
 });

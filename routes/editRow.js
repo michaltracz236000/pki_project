@@ -55,11 +55,11 @@ router.post('/', function (req, res, next) {
           res.send(text+"</div></body></html>")
         })
         .catch((error1) => {
-          res.send("NIE udało się edytować" + error1);
+          res.send(text+'<div class="alert alert-danger" role="alert">'+error1 + '</div></body></html>');
         });
     })
     .catch((error) => {
-      res.send("NIE udało się edytować" + error);
+      res.send(text+'<div class="alert alert-danger" role="alert">'+error + '</div></body></html>');
     });
   //res.send(req.body.toEdit+"<br>"+req.body.tableName);
 });

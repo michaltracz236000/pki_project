@@ -134,7 +134,7 @@ router.post('/', function (req, res, next) {
                   })
               }
               else {
-                res.send(result);
+                res.send(text+'<div class="alert alert-success" role="alert">'+result + '</div></body></html>');
               }
             })
             .catch((error) => {
@@ -145,7 +145,7 @@ router.post('/', function (req, res, next) {
         })
         .catch((error2) => {
 
-          res.send("NIE dostałem2" + error2);
+          res.send(text+'<div class="alert alert-danger" role="alert">'+error2 + '</div></body></html>');
         });
     }
 

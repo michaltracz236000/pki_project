@@ -39,7 +39,7 @@ router.post('/', function (req, res, next) {
       </html>`)
     })
     .catch((error) => {
-      res.send(text+"NIE udało się usunąć" + error+"</div></body></html>");
+      res.send(text+'<div class="alert alert-danger" role="alert">'+error + '</div></body></html>');
     });
 });
 
